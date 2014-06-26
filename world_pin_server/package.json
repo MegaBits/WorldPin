@@ -1,0 +1,10 @@
+{
+  "name": "WorldPinServer",
+  "version": "0.0.0",
+  "description": "Server to distributed phone locations to other phones",
+  "main": "app.js",
+  "author": "myself",
+  "dependencies": {
+    "socket.io":"1.0.4"
+  }
+}
