@@ -1,0 +1,14 @@
+PODS:
+  - SIOSocket (0.0.1)
+
+DEPENDENCIES:
+  - SIOSocket (from `https://raw.githubusercontent.com/MegaBits/SIOSocket/master/SIOSocket.podspec`)
+
+EXTERNAL SOURCES:
+  SIOSocket:
+    :podspec: https://raw.githubusercontent.com/MegaBits/SIOSocket/master/SIOSocket.podspec
+
+SPEC CHECKSUMS:
+  SIOSocket: 35905a04c85c369288e30fd34947f27f1fea605e
+
+COCOAPODS: 0.32.1
