@@ -1,7 +1,7 @@
 WorldPin
 ========
 
-_This README was derived from [our post on Medium](./)_.
+_This README was derived from [our post on Medium](https://medium.com/megabits-lab/aba8796ff48d)_.
 
 Recently, we released [SIOSocket](https://github.com/megabits/siosocket), an open source Objective-C client for [socket.io 1.0](http://socket.io/blog/introducing-socket-io-1-0/). Our last post was all about the motivation for and implementation of SIOSocket, but in this post, we’re building a thing!
 
