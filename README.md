@@ -132,10 +132,9 @@ Except, there aren’t any. So we have to get each running instance of WorldPin 
     // Broadcast new location
     if (self.socketIsConnected)
     {
-        [self.socket emit: @"location",
-            [NSString stringWithFormat: @"%f,%f", userLocation.coordinate.latitude, userLocation.coordinate.longitude],
-            nil
-        ];
+        [self.socket emit: @"location" args: @[
+            [NSString stringWithFormat: @"%f,%f", userLocation.coordinate.latitude, userLocation.coordinate.longitude]
+        ]];
     }
 }
 ```
@@ -160,13 +159,15 @@ Finally, we need to tell our `SIOSocket` to listen for events from the server. T
             [weakSelf mapView: weakSelf.mapView didUpdateUserLocation: weakSelf.mapView.userLocation];
         };
         
-        [self.socket on: @"join" do: ^(id pinID)
+        [self.socket on: @"join" callback: ^(SIOParameterArray *args)
         {
             [weakSelf mapView: weakSelf.mapView didUpdateUserLocation: weakSelf.mapView.userLocation];
         }];
         
-        [self.socket on: @"disappear" do: ^(id pinID)
+        [self.socket on: @"disappear" callback: ^(SIOParameterArray *args)
         {
+            NSString *pinID = [args firstObject];
+
             [self.mapView removeAnnotation: self.pins[pinID]];
             [self.pins removeObjectForKey: pinID];
         }];
@@ -177,11 +178,13 @@ Finally, we need to tell our `SIOSocket` to listen for events from the server. T
 When __connect__ and __join__ events are triggered, we call our own `mapView:didUpdateUserLocation:` method, which fires a __location__ emission, and alerts all other users to our location. When we receive that information, on an __update event__, we should create or update our list of pins.
 
 ```objc
-[self.socket on: @"update" do: ^(id pinData)
+[self.socket on: @"update" callback: ^(SIOParameterArray *args)
 {
     // pinData == @"pinID:lat,long"
     // self.pins == @{@"pinID": <WPAnnotation @ (lat, long)>}
  
+    NSString *pinData = [args firstObject];
+
     NSArray *dataPieces = [pinData componentsSeparatedByString: @":"];
     NSString *pinID = [dataPieces firstObject];
     
