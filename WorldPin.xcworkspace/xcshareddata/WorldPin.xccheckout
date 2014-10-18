@@ -10,29 +10,29 @@
 	<string>WorldPin</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>9B12B422-ED4A-4BD4-B91B-7FEC9B19E596</key>
+		<key>95B0C2CE4AEBB80E86FE05B8DAAAB113379A1B98</key>
 		<string>https://github.com/MegaBits/WorldPin.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>WorldPin.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>9B12B422-ED4A-4BD4-B91B-7FEC9B19E596</key>
+		<key>95B0C2CE4AEBB80E86FE05B8DAAAB113379A1B98</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/MegaBits/WorldPin.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>9B12B422-ED4A-4BD4-B91B-7FEC9B19E596</string>
+	<string>95B0C2CE4AEBB80E86FE05B8DAAAB113379A1B98</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>9B12B422-ED4A-4BD4-B91B-7FEC9B19E596</string>
+			<string>95B0C2CE4AEBB80E86FE05B8DAAAB113379A1B98</string>
 			<key>IDESourceControlWCCName</key>
 			<string>WorldPin</string>
 		</dict>

@@ -41,13 +41,15 @@
             [weakSelf mapView: weakSelf.mapView didUpdateUserLocation: weakSelf.mapView.userLocation];
         };
         
-        [self.socket on: @"join" do: ^(id pinID)
+        [self.socket on: @"join" callback: ^(SIOParameterArray *args)
         {
             [weakSelf mapView: weakSelf.mapView didUpdateUserLocation: weakSelf.mapView.userLocation];
         }];
         
-        [self.socket on: @"update" do: ^(id pinData)
+        [self.socket on: @"update" callback: ^(SIOParameterArray *args)
         {
+            NSString *pinData = [args firstObject];
+            
             NSArray *dataPieces = [pinData componentsSeparatedByString: @":"];
             NSString *pinID = [dataPieces firstObject];
             
@@ -67,8 +69,10 @@
             [self.mapView addAnnotation: pin];
         }];
         
-        [self.socket on: @"disappear" do: ^(id pinID)
+        [self.socket on: @"disappear" callback: ^(SIOParameterArray *args)
         {
+            NSString *pinID = [args firstObject];
+            
             [self.mapView removeAnnotation: self.pins[pinID]];
             [self.pins removeObjectForKey: pinID];
         }];
@@ -87,10 +91,9 @@
     // Broadcast new location
     if (self.socketIsConnected)
     {
-        [self.socket emit: @"location",
-            [NSString stringWithFormat: @"%f,%f", userLocation.coordinate.latitude, userLocation.coordinate.longitude],
-            nil
-        ];
+        [self.socket emit: @"location" args: @[
+            [NSString stringWithFormat: @"%f,%f", userLocation.coordinate.latitude, userLocation.coordinate.longitude]
+        ]];
     }
 }
 
