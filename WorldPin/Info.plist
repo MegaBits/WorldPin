@@ -25,7 +25,9 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>X</string>
+	<string>Location is required for this application.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location is required for this application.</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

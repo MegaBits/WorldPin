@@ -11,7 +11,7 @@
 #import <SIOSocket/SIOSocket.h>
 #import "WPAnnotation.h"
 
-@interface ViewController () <MKMapViewDelegate>
+@interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate>
 
 @property IBOutlet MKMapView *mapView;
 
@@ -29,8 +29,19 @@
 {
     [super viewDidLoad];
     
+    if (!self.locationManager) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+    }
+#define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+    if(IS_OS_8_OR_LATER) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
+    self.mapView.userTrackingMode = MKUserTrackingModeFollow;
+    
     self.pins = [NSMutableDictionary dictionary];
-    [SIOSocket socketWithHost: @"http://10.1.10.16:3000" response: ^(SIOSocket *socket)
+    [SIOSocket socketWithHost: @"http://<your ip address>:3000" response: ^(SIOSocket *socket)
     {
         self.socket = socket;
         
