@@ -3,7 +3,7 @@ WorldPin
 
 _This README was derived from [our post on Medium](https://medium.com/megabits-lab/aba8796ff48d)_.
 
-Recently, we released [SIOSocket](https://github.com/megabits/siosocket), an open source Objective-C client for [socket.io 1.0](http://socket.io/blog/introducing-socket-io-1-0/). Our last post was all about the motivation for and implementation of SIOSocket, but in this post, we’re building a thing!
+Recently, we released [SIOSocket](https://github.com/megabits/siosocket), an open source Objective-C client for [socket.io 1.0.4](http://socket.io/blog/introducing-socket-io-1-0/). Our last post was all about the motivation for and implementation of SIOSocket, but in this post, we’re building a thing!
 
 ## Node.js App ##
 
@@ -51,6 +51,7 @@ Finally, add two event listeners to handle the various events our clients will b
 
 ```js
 socket.on('location', function (data) {
+    console.log('Location data' + socket['id'] +' has this data ' + data);
     socket.broadcast.emit('update', (socket['id'] + ':' + data));
 });
  
@@ -60,9 +61,44 @@ socket.on('disconnect', function () {
 });
 ```
 
+Add these two event listeners to inside io.on connect.
+
+```js
+io.sockets.on('connection', function (socket) {
+    socket.broadcast.emit('join', socket['id']);
+    console.log(socket['id'] + ' has connected!');
+    socket.on('location', function (data) {
+        console.log('Location data' + socket['id'] +' has this data ' + data);
+        socket.broadcast.emit('update', (socket['id'] + ':' + data));
+    });
+    socket.on('disconnect', function () {
+        socket.broadcast.emit('disappear', socket['id']);
+        console.log(socket['id'] + ' has disconnected!');
+    });
+});
+```
+
 We’ll listen for __location__ events and establish our own custom __disconnect__ event (which occurs after socket.io’s standard __disconnect__ event, as a sort of middleware). When we receive the __location__ event, we’ll broadcast an __update__ event, with the string `"id:data"`, in response. And for the __disconnect__, we will broadcast a __disappear__ event, with the `id` as content. Clients who receive this __disappear__ event will then remove pins labeled with the `id` from the map. For debugging, again, we’ll include a console printout of the socket which has disconnected.
 
-That’s it! With these ~15 lines of code, you’ll be handling real-time communication! To launch, simply trigger `node app.js` in the command line. (Bonus: you can use `DEBUG=socket-io* node app.js` to activate Node’s verbose debugging tools.)
+That’s it! With these ~10 lines of code (shown below), you’ll be handling real-time communication! To launch, simply trigger `node app.js` in the command line. (Bonus: you can use `DEBUG=socket-io* node app.js` to activate Node’s verbose debugging tools.)
+
+```js
+var io = require('socket.io')(3000);
+
+io.sockets.on('connection', function (socket) {
+    socket.broadcast.emit('join', socket['id']);
+    console.log(socket['id'] + ' has connected!');
+    socket.on('location', function (data) {
+        console.log('Location data' + socket['id'] +' has this data ' + data);
+        socket.broadcast.emit('update', (socket['id'] + ':' + data));
+    });
+    socket.on('disconnect', function () {
+        socket.broadcast.emit('disappear', socket['id']);
+        console.log(socket['id'] + ' has disconnected!');
+    });
+});
+
+```
 
 ## iOS App ##
 
